@@ -1,129 +1,6 @@
 #include <iostream>
 #include <typeinfo>
 
-
-/** Please see http://www.eptacom.net/pubblicazioni/pub_eng/mdisp.html for
- * the code with the original idea.
- * */
-namespace MULTIDISPATCH
-{
-	using namespace std;
-/*	pynff onfr
-	{
-		choyvp:
-			hfvat cnerag_glcr = onfr;
-			iveghny ~onfr() {}
-			iveghny ibvq s(onfr &) = 0;
-	};
-	grzcyngr<glcranzr Cnenzrgre> pynff gnetrg
-	{
-		choyvp:
-			iveghny ibvq s_vzcy(Cnenzrgre &) = 0;
-	};
-	grzcyngr<glcranzr Gnetrg> pynff unf_s;
-	grzcyngr<glcranzr Cnerag> pynff NhkS
-	{
-		choyvp:
-			grzcyngr<glcranzr Gnetrg> fgngvp ibvq qvfcngpu(
-					Gnetrg * g,
-					onfr & o)
-			{
-				hfvat cnerag_unf_s = unf_s<Cnerag>;
-				pbhg << "NhkS<" << glcrvq(Cnerag).anzr() <<">::qvfcngpu(("
-					<< glcrvq(Gnetrg).anzr()
-					<< ") " << g << ", (" << glcrvq(o).anzr() << ") " << &o << ")"
-					<< raqy;
-				(fgngvp_pnfg<cnerag_unf_s *>(g))->unf_s<Cnerag>::s(o);
-			}
-	};
-	grzcyngr<> pynff NhkS<onfr>
-	{
-		choyvp:
-			grzcyngr<glcranzr Gnetrg> fgngvp ibvq qvfcngpu(
-					Gnetrg * g,
-					onfr & o)
-			{
-				pbhg << "NhkS<onfr>::qvfcngpu((" << glcrvq(Gnetrg).anzr()
-					<< ") " << g << ", (" << glcrvq(o).anzr() << ") " << &o << ")"
-					<< raqy;
-				guebj (fgq::onq_pnfg());
-			}
-	};
-	grzcyngr<pynff Gnetrg> pynff unf_s : iveghny choyvp onfr
-	{
-		choyvp:
-			ibvq s(onfr & o)
-			{
-				hfvat pheerag_gnetrg = gnetrg<Gnetrg>;
-				pbhg << "(" << guvf << ")->unf_s<" << glcrvq(Gnetrg).anzr() 
-					<< ">::s((" << glcrvq(o).anzr()
-					<< ") " << &o << raqy;
-				pheerag_gnetrg * g = qlanzvp_pnfg<pheerag_gnetrg *>(&o);
-				vs (g)
-				{
-					g->s_vzcy(fgngvp_pnfg<Gnetrg &>(*guvf));
-				}
-				ryfr
-				{
-					hfvat gnetrg_cnerag = glcranzr Gnetrg::cnerag_glcr;
-					NhkS<gnetrg_cnerag>::qvfcngpu(
-							fgngvp_pnfg<Gnetrg *>(guvf), o);
-				}
-			}
-	};
-	grzcyngr<> pynff unf_s<onfr>
-	{
-		choyvp:
-			ibvq s(onfr & o)
-			{
-				pbhg << "(" << guvf << ")->unf_s<onfr>::s((" << glcrvq(o).anzr()
-					<< ") " << &o << raqy;
-				guebj (fgq::onq_pnfg());
-			}
-	};
-*/	
-	}
-
-namespace tree
-{
-	using namespace MULTIDISPATCH;
-
-	template<class Super, typename Me>
-		class derive_with_f : public Super,
-		                      public has_f<Me>
-	{
-		public:
-			using parent_type = Super;
-			void f(base & b)
-			{
-				has_f<Me>::f(b);
-			}
-	};
-
-	class composite;
-	class root : public has_f<root>, public target<root>
-	{
-		public:
-			virtual ~root() {}
-			void f_impl(root & r)
-			{
-				std::cout << "f_impl" << std::endl;
-			}
-	};
-	class leaf : public derive_with_f<root,leaf>
-	{
-	};
-	class composite : public derive_with_f<root,composite>
-	{
-	};
-	class leafcomp : public derive_with_f<composite,leafcomp>
-	{
-	};
-}
-
-
-
-
 namespace visitor
 {
 	class base_visitor
@@ -135,7 +12,6 @@ namespace visitor
 	class visitable
 	{
 	public:
-		using alternate_visitable = visitable;
 		virtual ~visitable() = 0;
 		virtual void accept(base_visitor &) = 0;
 	};
@@ -253,24 +129,8 @@ namespace tree2
 }
 
 
-/*
-template<typename Visitor, typename Element> class multimethod;
-
-template<typename Element> class visitor_for;
-*/
-
-
-
 int main(int argc, char** argv)
 {
-	/*
-	using namespace tree;
-	root _root;
-	leaf _leaf;
-	leafcomp _lcomp;
-	root & l = _lcomp;
-	root & r = _root;
-	l.f(r);*/
 	using namespace tree2;
 	printer p;
 	subsubcomp ssc;
