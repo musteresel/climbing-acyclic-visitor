@@ -79,7 +79,7 @@ namespace visitor
 
 
 
-	template<typename Node> class is_root
+	class is_root : virtual public visitable
 	{
 		public:
 			using parent_type = visitable;
@@ -98,7 +98,7 @@ namespace visitor
 namespace tree2
 {
 	using namespace visitor;
-	class root : public accepting<root>, public is_root<root>
+	class root : public accepting<root>, public is_root
 	{
 	};
 	class sub : public derive<root,sub>
