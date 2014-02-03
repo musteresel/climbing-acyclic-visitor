@@ -70,16 +70,17 @@ namespace visitor
 	template<> class accepting<visitable>
 	{
 		public:
-			void accept(base_visitor & b)
+			void accept(base_visitor & b) = delete;/*
 			{
 				std::cerr << "Must not accept a visitable!" << std::endl;
 				throw std::bad_cast();
-			}
+			}*/
 	};
 
 
 
-	class is_root : virtual public visitable
+	template<typename Node>
+		class is_root : public accepting<Node>
 	{
 		public:
 			using parent_type = visitable;
@@ -98,7 +99,7 @@ namespace visitor
 namespace tree2
 {
 	using namespace visitor;
-	class root : public accepting<root>, public is_root
+	class root : public is_root<root>
 	{
 	};
 	class sub : public derive<root,sub>
@@ -107,17 +108,20 @@ namespace tree2
 	class subcomp : public derive<root,subcomp>
 	{
 	};
-	class subsub : public derive<sub,subsub>
+	class subsub : public sub
 	{
 	};
+/*	class subsubsub : public subsub, public derive<sub,subsubsub>
+	{
+	};*/
 	class subsubcomp : public derive<subcomp,subsubcomp>
 	{
 	};
 
-	class printer : public can_visit<root>, public can_visit<subcomp>
+	class printer : public can_visit<subsubcomp>, public can_visit<subcomp>
 	{
 		public:
-			void visit(root & r)
+			void visit(subsubcomp & r)
 			{
 				std::cout << "visit as root" << std::endl;
 			}
@@ -134,8 +138,13 @@ int main(int argc, char** argv)
 	using namespace tree2;
 	printer p;
 	subsubcomp ssc;
+	root r;
+	sub s;
+	subsub ss;
+//	subsubsub sss;
+	subcomp sc;
 
-	root & node = ssc;
+	root & node = ss;
 	node.accept(p);
 
 	return 0;
