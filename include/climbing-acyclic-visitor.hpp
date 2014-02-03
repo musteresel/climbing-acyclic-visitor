@@ -5,7 +5,7 @@
  * */
 #ifndef _CLIMBING_ACYCLIC_VISITOR_HEADER_
 #define _CLIMBING_ACYCLIC_VISITOR_HEADER_ 1
-namespace acv
+namespace cav
 {
   // Forward declaration
   class base_visitable;
@@ -14,8 +14,8 @@ namespace acv
   /** Marker class to mark everything that can be a visitor.
    *
    * */
-	class base_visitor
-	{
+  class base_visitor
+  {
     public:
       virtual ~base_visitor() {};
       virtual void unknown_visitable(base_visitable *) = 0;
@@ -113,9 +113,9 @@ namespace acv
         using can_visit_current = can_visit<Visitable>;
         can_visit_current * interface =
           dynamic_cast<can_visit_current *>(&visitor);
-        if (can_visit_current)
+        if (interface)
         {
-          can_visit_current->visit(static_cast<Visitable &>(*this));
+          interface->visit(static_cast<Visitable &>(*this));
         }
         else
         {
@@ -127,11 +127,13 @@ namespace acv
   };
 
 
-  /** Delete special implementation of is_visitable for the base_visitable.
+  /** "Delete" special implementation of is_visitable for the base_visitable.
    *
    * A base_visitable is - contrary to its name - never visitable.
    * */
-  template<> class is_visitable<base_visitable> = delete;
+  template<> class is_visitable<base_visitable>
+  {
+  };
 }
 #endif
 
