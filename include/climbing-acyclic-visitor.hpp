@@ -13,28 +13,22 @@ namespace acv
   
   /** Marker class to mark everything that can be a visitor.
    *
-   * This class has a pure virtual destructor to prevent instantiation.
-   * Therefore, an implementation of the destructor is needed. See acv.cpp
-   * or provide your own.
    * */
 	class base_visitor
 	{
     public:
-      virtual ~base_visitor() = 0;
-      virtual void unknown_visitable(base_visitable *);
+      virtual ~base_visitor() {};
+      virtual void unknown_visitable(base_visitable *) = 0;
   };
 
 
   /** Marker class to mark everything that is able to accept a visitor.
    *
-   * This class has a pure virtual destructor to prevent instantiation.
-   * Therefore, an implementation of the destructor is needed. See acv.cpp
-   * or provide your own.
    * */
   class base_visitable
   {
     public:
-      virtual ~base_visitable() = 0;
+      virtual ~base_visitable() {};
       virtual void accept(base_visitor &) = 0;
   };
 
