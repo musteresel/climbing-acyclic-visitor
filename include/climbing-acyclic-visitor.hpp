@@ -1,7 +1,7 @@
 /** An acyclic visitor that climbs up a class hierarchy to find a matching
  * method to call.
  *
- * https://github.com/DanielOertwig/climbing-acyclic-visitor
+ * https://github.com/musteresel/climbing-acyclic-visitor
  * */
 #ifndef _CLIMBING_ACYCLIC_VISITOR_HEADER_
 #define _CLIMBING_ACYCLIC_VISITOR_HEADER_ 1
